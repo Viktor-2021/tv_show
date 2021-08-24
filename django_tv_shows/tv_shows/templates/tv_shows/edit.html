@@ -1,0 +1,58 @@
+{% extends "tv_shows/base.html" %}
+
+{% block title %}Show | Edit | {{show.title}}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">        
+        <div class="col-md-6">
+            <h1 class="title">Edit {{show.id}}</h1>
+            <form action="/shows/{{show.id}}/update" method="POST">
+                {% csrf_token %}
+                <div class="form-group mb-3">
+                    <label class="form-label fw-bold" for="title">Title</label>
+                    <input class="form-control" value="{{show.title}}" type="text" name="title" id="title" maxlength="100">
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-bold" for="network">Network</label>
+                            <select name="network" id="network" class="form-control">
+                                {% for network in networks %}
+                                    {% if network.id == show.network.id %}
+                                        <option value={{network.id}} selected>{{network.name}}</option>
+                                    {% else %}
+                                        <option value={{network.id}}>{{network.name}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-bold" for="release_date">Release date</label>
+                            <input class="form-control" value="{{show.release_date|date:'Y-m-d'}}" type="date" name="release_date" id="release_date">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label class="form-label fw-bold" for="description">Description</label>
+                    <textarea class="form-control" name="description" id="description" rows="5">{{show.description}}</textarea>
+                </div>
+                <div class="form-group">
+                    <div class="row justify-content-center">
+                        <div class="col-2">
+                            <input class="btn btn-dark " type="submit" value="Update">
+                        </div>
+                        
+                    </div>                    
+                </div>
+            </form>       
+            <div class="row justify-content-center mt-5">
+                <a class="text-center" href="/shows/{{show.id}}">Go to Show</a>
+            </div>                
+        </div>         
+    </div>
+</div>
+
+{% endblock %}

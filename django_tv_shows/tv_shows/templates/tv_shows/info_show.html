@@ -1,0 +1,48 @@
+{% extends "tv_shows/base.html" %}
+
+{% block title %}Show | {{show.title}}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-5">
+        <h1 class="title">TV SHOW {{show.id}}</h1>        
+    </div>
+    <div class="row mb-5">
+        <ul class="list-unstyled">
+            <li class="mb-2">Title: {{show.title}}</li>
+            <li class="mb-2">Network: {{show.network}}</li>
+            <li class="mb-2">Release Date: {{show.release_date}}</li>
+            <li class="mb-2">Description: {{show.description}}</li>
+        </ul>
+    </div>
+    <div class="row">
+        <h3>Last updated: {{show.updated_at}}</h3>
+        <p><a href="/shows/{{show.id}}/edit">Edit</a> | <a class="modal-borrar" data-bs-toggle="modal" data-bs-target="#delete_modal" href="/shows/{{show.id}}/destroy" data-href="/shows/{{show.id}}/destroy">Delete</a></p>
+    </div>
+</div>
+
+<div class="modal fade" id="delete_modal" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Mensajes</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <h6 class="modal-text">Estas seguro que deseas eliminar el show seleccionado?<br>No podrás deshacer esta operación...</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                <a href="#" id="confirmar-borrar" class="btn btn-primary">Si</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.modal-borrar').on('click', function() {
+        const href= $(this).attr('data-href');
+        $('#confirmar-borrar').attr('href', href);
+    })
+</script>
+{% endblock %}

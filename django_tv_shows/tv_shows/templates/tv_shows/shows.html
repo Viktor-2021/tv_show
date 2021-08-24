@@ -1,0 +1,81 @@
+{% extends "tv_shows/base.html" %}
+
+{% block title %}Shows | All{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <h1 class="title">All Shows</h1>
+    </div>
+    <div class="row mb-4">
+        <div class="table-responsive">
+            <table class="table table-bordered table-strip">
+                <thead>
+                    <tr class="table-dark">
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Network</th>
+                        <th>Release Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for show in shows %}
+                    <tr class="align-middle">
+                        <td>{{show.id}}</td>
+                        <td>{{show.title}}</td>
+                        <td>{{show.network}}</td>
+                        <td>{{show.release_date|date:"F d, Y"}}</td>
+                        <td>
+                            <a class="text-decoration-none" href="/shows/{{show.id}}">
+                                <span class="text-dark fs-2">
+                                    <i class="far fa-eye"></i>
+                                </span>
+                            </a>
+                            <a class="text-decoration-none" href="/shows/{{show.id}}/edit">
+                                <span class="text-dark fs-2">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </span>
+                            </a>
+                            <a class="text-decoration-none modal-borrar" data-bs-toggle="modal" data-bs-target="#delete_modal" href="/shows/{{show.id}}/destroy" data-href="/shows/{{show.id}}/destroy">
+                                <span class="text-dark fs-2">
+                                    <i class="far fa-trash-alt"></i>
+                                </span>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>             
+        </div>
+    </div>
+    <div class="row mb-4">
+        <a class="text-decoration-none" href="{% url 'new' %}">Add a new Show</a>
+    </div>
+</div>
+
+<div class="modal fade" id="delete_modal" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Mensajes</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <h6 class="modal-text">Estas seguro que deseas eliminar el show seleccionado?<br>No podrás deshacer esta operación...</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                <a href="#" id="confirmar-borrar" class="btn btn-primary">Si</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.modal-borrar').on('click', function() {
+        const href= $(this).attr('data-href');
+        $('#confirmar-borrar').attr('href', href);
+    })
+</script>
+{% endblock %}
